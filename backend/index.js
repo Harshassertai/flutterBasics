@@ -3,7 +3,12 @@ const app = express()
 
 
 app.get('/myapp', (req, res) => {
-  res.status(200).json({message:"Backend is responding"})
+  res.status(200).json({ message: "Backend is responding" })
+  // res.send([
+  //   'bob',
+  //   'Cat',
+  //   'morris'
+  // ])
 })
 
 
