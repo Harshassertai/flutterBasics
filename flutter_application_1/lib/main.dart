@@ -1,35 +1,45 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-// import 'package:flutter_application_1/app_screens/home.dart';
-// import 'package:flutter_application_1/app_screens/logic.dart';
-// import 'package:flutter_application_1/app_screens/Stateful.dart';
+import 'package:flutter_application_1/app_screens/home.dart';
+import 'package:flutter_application_1/app_screens/logic.dart';
+import 'package:flutter_application_1/app_screens/Stateful.dart';
+import 'package:flutter_application_1/DioExample.dart';
+import 'package:flutter_application_1/httpExample.dart';
 
 /// More examples see https://github.com/flutterchina/dio/tree/master/example
 /// More examples see https://github.com/flutterchina/dio/tree/master/example
-void main() async {
-  var dio = Dio();
-  final response = await dio.get('https://google.com');
-  print(response.data);
-}
-
-// void main() {
-//   runApp(MyApp());
+// void main() async {
+//   var dio = Dio();
+//   final response = await dio.get('https://google.com');
+//   print(response.data);
 // }
 
-// class MyApp extends StatelessWidget {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //       title: 'MY APP',
-  //       home: Scaffold(
-  //           appBar: AppBar(
-  //             backgroundColor: Colors.deepPurpleAccent,
-  //             title: Text(
-  //               'My App',
-  //               style: TextStyle(color: Colors.black38),
-  //             ),
-  //           ),
-  //           backgroundColor: Colors.pinkAccent,
+void main() async {
+  // try {
+  //   var response = await Dio().get('http://10.0.2.2:3000/myapp');
+  //   print(response);
+  // } catch (e) {
+  //   print(e);
+  // }
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  HttpExample httpExampleService = HttpExample();
+  var y;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'MY APP',
+        home: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.deepPurpleAccent,
+              title: Text(
+                'My App',
+                style: TextStyle(color: Colors.black38),
+              ),
+            ),
+            // backgroundColor: Colors.pinkAccent,
             // body: Center(
             //     child: Container(
             //   decoration: BoxDecoration(color: Colors.blueAccent),
@@ -79,9 +89,38 @@ void main() async {
             //       trailing: Icon(Icons.delete),
             //     )
             //   ],
-            //
+
             // body: MYHomeScreen()));
-            // body: Logic()));
-//             body: StatefulPage()));
-//   }
-// }
+            body: Container(
+              child: FutureBuilder<String>(
+                future: httpExampleService.getDetails(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                        child: Center(
+                      child: Text('${snapshot.data}'),
+                      //   child: ListView.builder(
+                      //       itemCount: snapshot.data!.length,
+                      //       itemBuilder: (context, int index) => Container(
+                      //             padding: EdgeInsets.symmetric(
+                      //                 vertical: 40.0, horizontal: 20.0),
+                      //             child: Center(
+                      //               child: Text(
+                      //                 snapshot.data![index],
+                      //                 style: TextStyle(
+                      //                     color: Colors.amber, fontSize: 40.0),
+                      //               ),
+                      //             ),
+                      //           )),
+                      // ),
+                    ));
+                  } else {
+                    return Text('NO Data');
+                  }
+                },
+              ),
+            )));
+    // body: Logic()));
+    // body: StatefulPage()));
+  }
+}
